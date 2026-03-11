@@ -1,5 +1,5 @@
 #include <iostream>
-#include <string>
+#include <cctype>
 
 int main(int argc, char **argv)
 {
@@ -16,9 +16,7 @@ int main(int argc, char **argv)
 		j = 0;
 		while(argv[i][j])
 		{
-			if(argv[i][j] >= 97 && argv[i][j] <= 122)
-				argv[i][j] -= 32;
-			std::cout << argv[i][j];
+			std::cout << (char)std::toupper(argv[i][j]);
 			j++;
 		}
 		i++;
