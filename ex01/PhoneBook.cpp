@@ -1,20 +1,20 @@
 #include "PhoneBook.hpp"
 #include <iomanip>
 
-PhoneBook::PhoneBook()
+std::string formatString(std::string str)
 {
-	index = 0;
-	total = 0;
+	if (str.length() > 10)
+		return str.substr(0, 9) + ".";
+	return str;
 }
+
+PhoneBook::PhoneBook():index(0), total(0){}
 
 void PhoneBook::addContact()
 {
 	contacts[index].setContact();
-	index++;
 
-	if (index == 8)
-		index = 0;
-	
+	index = (index + 1) % 8;
 	if (total < 8)
 		total++;
 }
@@ -33,29 +33,23 @@ void PhoneBook::searchContact()
 				<< std::setw(10) << "Nickname"
 				<< std::endl;
 
-	int i = 0;
-
-	while (i < total)
+	for (int i = 0; i < total; i++) 
 	{
-		std::cout  << std::setw(10) << i << "|"
-				   << std::setw(10) << contacts[i].getFirstName() << "|"
-				   << std::setw(10) << contacts[i].getLastName() << "|"
-				   << std::setw(10) << contacts[i].getNickname()
-				   << std::endl;
-		i++;
+		std::cout	<< "|" << std::setw(10) << i 
+					<< "|" << std::setw(10) << formatString(contacts[i].getFirstName()) 
+					<< "|" << std::setw(10) << formatString(contacts[i].getLastName()) 
+					<< "|" << std::setw(10) << formatString(contacts[i].getNickname()) << "|" << std::endl;
 	}
 
 	std::cout << "Enter index: ";
+	std::string input;
+	std::getline(std::cin, input);
 
-	int indexInput;
-	std::cin >> indexInput;
-	std::cin.ignore();
-
-	if (indexInput < 0 || indexInput >= total)
+	if (input.length() == 1 && input[0] >= '0' && input[0] < '0' + total)
 	{
-		std::cout << "Invalid index" << std::endl;
-		return;
-	}
-
-	contacts[indexInput].displayContact();
+		int idx = input[0] - '0';
+		contacts[idx].displayContact();
+	} 
+	else 
+		std::cout << "Invalid index!" << std::endl;
 }

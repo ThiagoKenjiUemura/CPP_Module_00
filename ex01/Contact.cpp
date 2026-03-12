@@ -1,22 +1,27 @@
 #include "Contact.hpp"
 #include <iostream>
 
+static std:: string get_input(std::string prompt)
+{
+	std::string input = "";
+	while (input.empty())
+	{
+		std::cout << prompt;
+		if (!std::getline(std::cin, input))
+			return "";
+		if (input.empty())
+			std::cout << "The field cannot be empty!" << std::endl;
+	}
+	return input;
+}
+
 void Contact::setContact()
 {
-	std::cout<< "First Name: ";
-	std::getline(std::cin, firstName);
-
-	std::cout << "Last name: ";
-	std::getline(std::cin, lastName);
-
-	std::cout << "Nickname: ";
-	std::getline(std::cin, nickname);
-
-	std::cout << "Phone number: ";
-	std::getline(std::cin, phoneNumber);
-
-	std::cout << "Darkest secret: ";
-	std::getline(std::cin, darkestSecret);
+	firstName = get_input("First Name: ");
+	lastName = get_input("Last name: ");
+	nickname = get_input("Nickname: ");
+	phoneNumber = get_input("Phone number: ");
+	darkestSecret = get_input("Darkest secret: ");
 }
 
 void Contact::displayContact()
